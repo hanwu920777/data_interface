@@ -13,12 +13,22 @@ import java.util.List;
 @Component
 @Data
 public class StoreData {
-    private List<ResultBean> res;
+    private List<ResultBean> resSample;
+    private List<ResultBean> resCurve;
     @Autowired
-    private GetDataFromAPI getDataFromAPI;
+    private GetSampleDataFromUrl getSampleDataFromUrl;
+    @Autowired
+    private GetCurveDataFromUrl getCurveDataFromUrl;
+
     @PostConstruct
-    public void storeData(){
-        String o = JSON.toJSONString(getDataFromAPI.getData().get("resultTable"));
-        res = JSONArray.parseArray(o, ResultBean.class);
+    public void storeSampleData(){
+        String o = JSON.toJSONString(getSampleDataFromUrl.getSpData().get("resultTable"));
+        resSample = JSONArray.parseArray(o, ResultBean.class);
+    }
+
+    @PostConstruct
+    public void storeCurveData(){
+        String o = JSON.toJSONString(getCurveDataFromUrl.getCrData().get("resultTable"));
+        resCurve = JSONArray.parseArray(o, ResultBean.class);
     }
 }

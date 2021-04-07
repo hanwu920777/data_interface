@@ -1,7 +1,6 @@
 package com.sumscope.data.dataservice;
 
 import com.alibaba.fastjson.JSONObject;
-import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -11,15 +10,15 @@ import java.util.Map;
 
 @Service
 @NoArgsConstructor
-public class GetDataFromAPI {
-    private String url = "http://restfulapi-cdh.dev.sumscope.com:7777/api/runapi";
+public class GetSampleDataFromUrl {
 
     @Resource
     private HttpClientService httpClientService;
-    public Map getData() {
-        String bodyDataJson = null;
+    public Map<String, Object> getSpData() {
+        String samplebodyDataJson = null;
         try {
-            bodyDataJson = httpClientService.post(url, "{\n" +
+            String url = "http://restfulapi-cdh.dev.sumscope.com:7777/api/runapi";
+            samplebodyDataJson = httpClientService.post(url, "{\n" +
                     "    \"apiName\": \"sdn_5111_oneday\",\n" +
                     "    \"dataSourceId\": \"420\",\n" +
                     "    \"pageSize\": \"100\",\n" +
@@ -44,8 +43,7 @@ public class GetDataFromAPI {
 //            e.printStackTrace();
 //        }
 
-        Map<String, Object> map = (Map) JSONObject.parse(bodyDataJson);
-       return  map;
+        return (Map<String, Object>) JSONObject.parse(samplebodyDataJson);
 
     }
 }

@@ -1,37 +1,45 @@
 package com.sumscope.data.controller;
 
-import com.sumscope.data.dataservice.StoreData;
-import com.sumscope.data.dataservice.GetDataFromAPI;
 
-
-import com.sumscope.data.dataservice.DataService;
-import lombok.extern.slf4j.Slf4j;
+import com.sumscope.data.getdata.GetCurveData;
+import com.sumscope.data.getdata.GetSampleData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 @RestController
 public class ControllerData {
 
 
     @Autowired
-    private DataService dataService;
+    private GetCurveData getCurveData;
     @Autowired
-    private StoreData storeData;
+    private GetSampleData getSampleData;
 
+    @RequestMapping("/s1")
+    public Object getSample1(String ID) {
 
-    @RequestMapping("/p1")
-    public Object getApi1(String ID) {
-
-    return dataService.inter1("SPRA114002").get(0);
+    return getSampleData.data1("SPRA114002").get(0);
 
     }
-    @RequestMapping("/p2")
-    public Object getApi2(String ID, String date) {
+    @RequestMapping("/s2")
+    public Object getSample2(String ID, String date) {
 
-        return dataService.inter2("SPRA114002","2021-03-16");
+        return getSampleData.data2("SPRA114002","2021-03-16");
+
+
+    }
+
+    @RequestMapping("/c1")
+    public Object getCurve1(String ID) {
+
+        return getCurveData.data1("SPRA114002").get(0);
+
+    }
+    @RequestMapping("/c2")
+    public Object getCurve2(String ID, String date) {
+
+        return getCurveData.data2("SPRA114002","2021-03-16");
 
 
     }

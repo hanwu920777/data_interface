@@ -1,7 +1,8 @@
 package com.sumscope.data.swaggercontroller;
 
 import com.sumscope.data.controller.ControllerData;
-import com.sumscope.data.dataservice.DataService;
+import com.sumscope.data.getdata.GetCurveData;
+import com.sumscope.data.getdata.GetSampleData;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -11,33 +12,54 @@ import org.springframework.web.bind.annotation.*;
 public class SwaggerController {
 
 @Autowired
-private ControllerData controllerData;
+private GetCurveData getCurveData;
 
 @Autowired
-private DataService dataService;
+private GetSampleData getSampleData;
 
-        @ApiOperation(value = "接口服务",notes = "获取最新发布的实时曲线",httpMethod = "POST")
+        @ApiOperation(value = "样本券接口服务",notes = "获取最新发布的样本券数据",httpMethod = "POST")
         @ApiImplicitParam(dataType="String",name="ID",required=true,value="curveID")
-        @RequestMapping(value = "/s1")
+        @RequestMapping(value = "/ss1")
         public Object api1(String ID) {
 
-            return dataService.inter1(ID).get(0);
+            return getSampleData.data1(ID).get(0);
         }
 
-    @ApiOperation(value = "接口服务",notes = "获取指定日期的日终曲线",httpMethod = "POST")
-    @ApiImplicitParams({
+
+        @ApiOperation(value = "样本券接口服务",notes = "获取指定日期的样本券数据",httpMethod = "POST")
+        @ApiImplicitParams({
                     @ApiImplicitParam(dataType="String",name="ID",required=true,value="curveID"),
                     @ApiImplicitParam(dataType="String",name="date",required=true,value="date")
                  })
-//    @ApiResponses({
+//      @ApiResponses({
 //                     @ApiResponse(code=400,message="请求参数没填好"),
 //                     @ApiResponse(code=404,message="请求路径没有或页面跳转路径不对")
 //                 })
-    @RequestMapping(value = "/s2")
-    public Object api2(String ID,String date) {
+        @RequestMapping(value = "/ss2")
+         public Object api2(String ID,String date) {
 
-        return dataService.inter2(ID,date);
+            return getSampleData.data2(ID,date);
+        }
+
+    @ApiOperation(value = "利率曲线接口服务",notes = "获取最新发布的利率曲线数据",httpMethod = "POST")
+    @ApiImplicitParam(dataType="String",name="ID",required=true,value="curveID")
+    @RequestMapping(value = "/sc1")
+    public Object api3(String ID) {
+
+        return getCurveData.data1(ID).get(0);
     }
+
+
+    @ApiOperation(value = "利率曲线接口服务",notes = "获取指定日期的利率曲线数据",httpMethod = "POST")
+    @ApiImplicitParams({
+            @ApiImplicitParam(dataType="String",name="ID",required=true,value="curveID"),
+            @ApiImplicitParam(dataType="String",name="date",required=true,value="date")
+    })
+    @RequestMapping(value = "/sc2")
+    public Object api4(String ID,String date) {
+
+        return getCurveData.data2(ID,date);
     }
+}
 
 

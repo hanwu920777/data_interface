@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
 @Component
 public class DateUtil {
 
-    public static String dateT(String s){
+    public String dateT(String s){
         String regEx="[^0-9]";
         Pattern p = Pattern.compile(regEx);
         Matcher m = p.matcher(s);
