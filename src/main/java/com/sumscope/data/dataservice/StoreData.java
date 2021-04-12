@@ -1,34 +1,58 @@
 package com.sumscope.data.dataservice;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
+import com.sumscope.data.bean.CurveAssoResultBean;
 import com.sumscope.data.bean.ResultBean;
+import com.sumscope.data.bean.SampleAssoResultBean;
+import com.sumscope.data.bean.RequestB;
+import com.sumscope.data.utils.DateUtil;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
+import java.util.ArrayList;
 import java.util.List;
 
-@Component
+@Service
 @Data
 public class StoreData {
-    private List<ResultBean> resSample;
-    private List<ResultBean> resCurve;
+    private List resSample=new ArrayList<>(),resCurve=new ArrayList<>(),resAssoCurve=new ArrayList<>(),
+            resAssoSample=new ArrayList<>();
+
+
     @Autowired
-    private GetSampleDataFromUrl getSampleDataFromUrl;
+    private SplitPage splitPage;
     @Autowired
-    private GetCurveDataFromUrl getCurveDataFromUrl;
+    private RequestB requestB;
+    @Autowired
+   private  DateUtil dateUtil;
 
     @PostConstruct
     public void storeSampleData(){
-        String o = JSON.toJSONString(getSampleDataFromUrl.getSpData().get("resultTable"));
-        resSample = JSONArray.parseArray(o, ResultBean.class);
+//        requestB.setPage(1);
+//        requestB.setDate("2021.3.16");
+//        requestB.setSdnCode("sdn_5111_oneday");
+
+        resSample = splitPage.splitPage(ResultBean.class,"sdn_5111_oneday", 1, dateUtil.setDat());
     }
 
     @PostConstruct
     public void storeCurveData(){
-        String o = JSON.toJSONString(getCurveDataFromUrl.getCrData().get("resultTable"));
-        resCurve = JSONArray.parseArray(o, ResultBean.class);
+
+        resCurve = splitPage.splitPage(ResultBean.class,"sdn_5110_oneday", 1, dateUtil.setDat());
+
+    }
+
+    @PostConstruct
+    public void storeAssoCurveData(){
+
+        resAssoCurve = splitPage.splitPage(CurveAssoResultBean.class, "sdn_5110_entry_oneday", 1, dateUtil.setDat());
+    }
+    @PostConstruct
+    public void storeAssoSampleData() {
+
+        //String date=dateBean.getDate();
+
+        resAssoSample = splitPage.splitPage(SampleAssoResultBean.class, "sdn_5111_entry_oneday", 1, dateUtil.setDat());
     }
 }
