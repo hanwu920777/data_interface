@@ -13,9 +13,9 @@ import java.util.Map;
 @Data
 public class SplitPage {
 
-
-    public List splitPage( Class clazz,String sdnCode, int page, String date) {
-        List list = new ArrayList<>();
+//分页获取数据
+    public List<Object> splitPage( Class clazz,String sdnCode, int page, String date) {
+        List<Object> list = new ArrayList<>();
         RestTemplate restTemplate = new RestTemplate();
        final String url = "http://restfulapi-cdh.dev.sumscope.com:7777/api/runapi";
         while (true) {
@@ -35,7 +35,7 @@ public class SplitPage {
             jsonData = restTemplate.postForEntity(url, postData, JSONObject.class).getBody();
             Map<String, Object> map = (Map) JSONObject.parse(String.valueOf(jsonData));
             String o = JSON.toJSONString(map.get("resultTable"));
-            List lists = JSONArray.parseArray(o, clazz);
+            List<Object> lists = JSONArray.parseArray(o, clazz);
             if (!lists.isEmpty()) {
                 for (Object l : lists) {
                     list.add(l);

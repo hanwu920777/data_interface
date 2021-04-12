@@ -26,10 +26,11 @@ public class OutputSampleData implements Getdata {
     @Autowired
     private GetDataFromUrl getDataFromUrl;
 
+    //输出当前日期的样本券数据
 @Override
-    public List data1(String ID) {
+    public List<Map<String,Object>> data1(String ID) {
 
-        List<Map> findSam1 = new ArrayList<>();
+        List<Map<String,Object>> findSam1 = new ArrayList<>();
         for (int i = 0; i < storeData.getResSample().size(); i++) {
             String userStr = JSON.toJSONString(storeData.getResSample().get(i));
             Map<String, Object> outputMap = (Map) JSONObject.parse(userStr);
@@ -41,16 +42,17 @@ public class OutputSampleData implements Getdata {
         return findSam1;
     }
 
+//输出指定日期的样本券数据
 @Override
-    public List data2(String ID, String inputDate) {
+    public List<Map<String,Object>> data2(String ID, String inputDate) {
         if (!inputDate.equals(dateUtil.setDat())) {
             return this.getData(ID,inputDate,getDataFromUrl.getSpData(inputDate));
         } else {
             return this.getData(ID,inputDate,storeData.getResSample());
         }
     }
-    public List getData(String ID,String inputDate,List l){
-            List<Map> findSam2 = new ArrayList<>();
+    public List<Map<String,Object>> getData(String ID,String inputDate,List l){
+            List<Map<String,Object>> findSam2 = new ArrayList<>();
             for (int i = 0; i < l.size(); i++) {
                 String userStr1 = JSON.toJSONString(l.get(i));
                 Map<String, Object> outputMap1 = (Map) JSONObject.parse(userStr1);

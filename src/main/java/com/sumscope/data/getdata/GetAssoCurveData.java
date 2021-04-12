@@ -12,7 +12,7 @@ import java.util.*;
 
 @Service
 public class GetAssoCurveData {
-    private List<Map> yieldTermList;
+    private List<Map<String,Object>> yieldTermList;
     @Autowired
     private StoreData storeData;
     @Autowired
@@ -20,16 +20,18 @@ public class GetAssoCurveData {
     @Autowired
     private GetDataFromUrl getDataFromUrl;
 
-
-    public List putYieldTermData(String ID, String inputDate,String publishTime) {
+//根据输入日期判断，数据来源
+    public List<Map<String ,Object>> putYieldTermData(String ID, String inputDate,String publishTime) {
+        //如果不是当前日期，从url直接获取
         if(!inputDate.equals(dateUtil.setDat())){
             return this.getDataFromOneofBoth(ID,  getDataFromUrl.getAssoCurveData(inputDate),publishTime);
+            //如果是当前日期，从存储的数据获取
         }else{
             return this.getDataFromOneofBoth(ID, storeData.getResAssoCurve(),publishTime);
         }
     }
-
-    public List getDataFromOneofBoth(String ID, List l,String publishTime){
+//将指定字段放入集合
+    public List<Map<String,Object>> getDataFromOneofBoth(String ID, List l,String publishTime){
         yieldTermList=new ArrayList<>();
         for(int i=0;i<l.size();i++){
             Map<String, Object> yieldTermMap=new HashMap<>();

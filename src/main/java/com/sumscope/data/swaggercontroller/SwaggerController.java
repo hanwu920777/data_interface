@@ -2,6 +2,7 @@ package com.sumscope.data.swaggercontroller;
 
 import com.sumscope.data.getdata.OutputCurveData;
 import com.sumscope.data.getdata.OutputSampleData;
+import com.sumscope.data.utils.DateUtil;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -14,13 +15,15 @@ public class SwaggerController {
 private OutputCurveData outputCurveData;
 @Autowired
 private OutputSampleData outputSampleData;
+@Autowired
+private DateUtil dateUtil;
 
         @ApiOperation(value = "样本券接口服务",notes = "获取最新发布的样本券数据",httpMethod = "POST")
         @ApiImplicitParam(dataType="String",name="ID",required=true,value="curveID")
         @RequestMapping(value = "/ss1")
         public Object api1(String ID) {
 
-            return outputSampleData.data1(ID).get(0);
+            return outputSampleData.data1(ID).get(outputSampleData.data1(ID).size()-1);
         }
 
 
@@ -36,7 +39,7 @@ private OutputSampleData outputSampleData;
         @RequestMapping(value = "/ss2")
          public Object api2(String ID,String date) {
 
-            return outputSampleData.data2(ID,date);
+            return outputSampleData.data2(ID,dateUtil.dateT(date));
         }
 
         @ApiOperation(value = "利率曲线接口服务",notes = "获取最新发布的利率曲线数据",httpMethod = "POST")
@@ -44,7 +47,7 @@ private OutputSampleData outputSampleData;
         @RequestMapping(value = "/sc1")
         public Object api3(String ID) {
 
-            return outputCurveData.data1(ID).get(0);
+            return outputCurveData.data1(ID).get(outputCurveData.data1(ID).size()-1);
         }
 
 
@@ -56,7 +59,7 @@ private OutputSampleData outputSampleData;
         @RequestMapping(value = "/sc2")
         public Object api4(String ID,String date) {
 
-            return outputCurveData.data2(ID,date);
+            return outputCurveData.data2(ID,dateUtil.dateT(date));
         }
 }
 

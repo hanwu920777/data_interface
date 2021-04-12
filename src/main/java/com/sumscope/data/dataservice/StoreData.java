@@ -27,6 +27,7 @@ public class StoreData {
     @Autowired
    private  DateUtil dateUtil;
 
+    //将获取的数据放入集合中
     @PostConstruct
     public void storeSampleData(){
 //        requestB.setPage(1);

@@ -24,9 +24,10 @@ public class OutputCurveData implements Getdata {
     @Autowired
     private GetDataFromUrl getDataFromUrl;
 
+    //输出当前日期的曲线数据
     @Override
-    public List data1(String ID) {
-        List<Map> findCur1 = new ArrayList<>();
+    public List<Map<String,Object>> data1(String ID) {
+        List<Map<String,Object>> findCur1 = new ArrayList<>();
         for (int i = 0; i < storeData.getResCurve().size(); i++) {
             String userStr = JSON.toJSONString(storeData.getResCurve().get(i));
             Map<String, Object> curveMap1 = (Map)JSONObject.parse(userStr);
@@ -39,9 +40,9 @@ public class OutputCurveData implements Getdata {
 
         return findCur1;
     }
-
+//输出指定日期的曲线数据
     @Override
-    public List data2(String ID, String inputDate) {
+    public List<Map<String,Object>> data2(String ID, String inputDate) {
 
             if (!inputDate.equals(dateUtil.setDat())) {
                 return this.getData(ID,inputDate,getDataFromUrl.getCrData(inputDate));
@@ -52,8 +53,8 @@ public class OutputCurveData implements Getdata {
 
 
 
-        public List getData(String ID,String inputDate,List l){
-            List<Map> findCur2 = new ArrayList<>();
+        public List<Map<String,Object>> getData(String ID,String inputDate,List l){
+            List<Map<String,Object>> findCur2 = new ArrayList<>();
             for (int i = 0; i < l.size(); i++) {
                 String userStr1 = JSON.toJSONString(l.get(i));
                 Map<String, Object> curveMap2 = (Map) JSONObject.parse(userStr1);

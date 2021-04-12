@@ -24,7 +24,7 @@ public class GetAssoSampleData {
 
 
 
-    public List putSampleData(String ID, String inputDate,String publishTime) {
+    public List<Map<String ,Object>> putSampleData(String ID, String inputDate,String publishTime) {
         if(!inputDate.equals(dateUtil.setDat())){
             return this.getDataFromOneofBoth(ID,  getDataFromUrl.getAssoSampleData(inputDate),publishTime);
         }else{
@@ -33,20 +33,20 @@ public class GetAssoSampleData {
     }
 
 
-    public List getDataFromOneofBoth(String ID, List l,String publishTime){
+    public List<Map<String ,Object>> getDataFromOneofBoth(String ID, List l,String publishTime){
 
 
-        List<Map> assoSampleDataList = new ArrayList<>();
+        List<Map<String ,Object>> assoSampleDataList = new ArrayList<>();
 
         for (int i = 0; i < l.size(); i++) {
-            Map<Object, Object> sampleDataMap = new HashMap<>();
+            Map<String, Object> sampleDataMap = new HashMap<>();
             String assoSampleStr = JSON.toJSONString(l.get(i));
             Map<String, Object> hashMap = (Map) JSONObject.parse(assoSampleStr);
             if (hashMap.get("curveCode").equals(ID)&&hashMap.get("sumscopePublishTime").equals(publishTime)) {
                 Set keyset = hashMap.keySet();
                 Iterator iterator = keyset.iterator();
                 while (iterator.hasNext()) {
-                    Object key = iterator.next();
+                    String key = (String) iterator.next();
                     Object value = hashMap.get(key);
                     if (!key.equals("curveCode") && !key.equals("sumscopePublishTime")) {
                         sampleDataMap.put(key, value);
